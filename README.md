@@ -105,7 +105,7 @@ Render
 
 ## 📁 Project Structure
 ### Credit-Risk-Assessment/
-│
+```text
 ├── main.py
 ├── credit_risk_model.pkl
 ├── best_threshold.pkl
@@ -115,7 +115,7 @@ Render
     ├── index.html
     ├── style.css
     └── script.js
-    
+``` 
 
 ## 💻 Run Locally
 - git clone https://github.com/premchavan-308/Credit-Risk-Assessment.git
