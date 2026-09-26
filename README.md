@@ -83,7 +83,9 @@ Example:
 • Longer employment history
 • Longer credit history
 
-### SHAP explains the model's behavior; feature contributions should not be interpreted as causal effects.
+SHAP explains the model's behavior; feature contributions should not be interpreted as causal effects.
+
+
 
 ## 🛠️ Tech Stack
 
@@ -99,6 +101,8 @@ FastAPI • Pydantic • Uvicorn
 ### Deployment:
 Render
 
+
+
 ## 📁 Project Structure
 ### Credit-Risk-Assessment/
 │
@@ -111,12 +115,13 @@ Render
     ├── index.html
     ├── style.css
     └── script.js
+    
 
 ## 💻 Run Locally
-git clone https://github.com/premchavan-308/Credit-Risk-Assessment.git
-cd Credit-Risk-Assessment
-pip install -r requirements.txt
-uvicorn main:app --reload
+- git clone https://github.com/premchavan-308/Credit-Risk-Assessment.git
+- cd Credit-Risk-Assessment
+- pip install -r requirements.txt
+- uvicorn main:app --reload
 
 ### Open:
 
@@ -132,12 +137,9 @@ Machine Learning → Explainable AI → REST API → Web Application → Cloud D
 
 It combines predictive modeling with interpretability to create a more transparent and production-oriented ML application.
 
-👨‍💻 Author
 
+### 👨‍💻 Author
 ### Prem Chavan
 ### Final-Year B.E. Computer Engineering | Data Science & AI
-
-### 🔗 LinkedIn
-### 🐙 GitHub
 
 ⭐ If you find this project interesting, consider starring the repository!
