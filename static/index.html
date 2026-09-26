@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LedgerRisk — Credit Risk Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="wordmark">Ledger<span class="wordmark-accent">Risk</span></div>
+    <p class="tagline">Underwriting assistant — probability of default, with the reasons behind the number.</p>
+  </header>
+
+  <main class="workspace">
+
+    <form id="applicant-form" class="panel form-panel" novalidate>
+
+      <fieldset class="field-group">
+        <legend>Applicant</legend>
+
+        <div class="field">
+          <label for="person_age">Age</label>
+          <input type="number" id="person_age" name="person_age" min="18" max="100" value="30" required>
+        </div>
+
+        <div class="field">
+          <label for="person_income">Annual income</label>
+          <div class="input-affix">
+            <span>₹</span>
+            <input type="number" id="person_income" name="person_income" min="0" step="1000" value="600000" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="person_home_ownership">Home ownership</label>
+          <select id="person_home_ownership" name="person_home_ownership" required>
+            <option value="RENT">Rent</option>
+            <option value="MORTGAGE">Mortgage</option>
+            <option value="OWN">Own</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="person_emp_length">Years employed</label>
+          <input type="number" id="person_emp_length" name="person_emp_length" min="0" max="60" step="0.5" value="4" required>
+        </div>
+      </fieldset>
+
+      <fieldset class="field-group">
+        <legend>Loan details</legend>
+
+        <div class="field">
+          <label for="loan_intent">Purpose</label>
+          <select id="loan_intent" name="loan_intent" required>
+            <option value="PERSONAL">Personal</option>
+            <option value="EDUCATION">Education</option>
+            <option value="MEDICAL">Medical</option>
+            <option value="VENTURE">Venture</option>
+            <option value="HOMEIMPROVEMENT">Home improvement</option>
+            <option value="DEBTCONSOLIDATION">Debt consolidation</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="loan_grade">Grade</label>
+          <select id="loan_grade" name="loan_grade" required>
+            <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="loan_amnt">Amount</label>
+          <div class="input-affix">
+            <span>₹</span>
+            <input type="number" id="loan_amnt" name="loan_amnt" min="0" step="500" value="150000" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="loan_int_rate">Interest rate</label>
+          <div class="input-affix input-affix--suffix">
+            <input type="number" id="loan_int_rate" name="loan_int_rate" min="0" max="40" step="0.01" value="11.5" required>
+            <span>%</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="loan_percent_income">Loan / income ratio</label>
+          <div class="input-affix input-affix--suffix">
+            <input type="number" id="loan_percent_income" name="loan_percent_income" min="0" max="1" step="0.01" value="0.25" required>
+            <span>ratio</span>
+          </div>
+          <p class="field-hint">Calculated from income and amount — edit if needed.</p>
+        </div>
+      </fieldset>
+
+      <fieldset class="field-group">
+        <legend>Credit history</legend>
+
+        <div class="field">
+          <label for="cb_person_default_on_file">Prior default on file</label>
+          <select id="cb_person_default_on_file" name="cb_person_default_on_file" required>
+            <option value="N">No</option>
+            <option value="Y">Yes</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cb_person_cred_hist_length">Credit history length</label>
+          <div class="input-affix input-affix--suffix">
+            <input type="number" id="cb_person_cred_hist_length" name="cb_person_cred_hist_length" min="0" max="60" value="6" required>
+            <span>yrs</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="submit-btn">Run assessment</button>
+        <button type="button" class="btn-ghost" id="reset-btn">Clear</button>
+      </div>
+
+      <p class="error-message" id="error-message" role="alert" hidden></p>
+    </form>
+
+    <section class="panel result-panel" aria-live="polite">
+
+      <div class="result-empty" id="result-empty">
+        <p>Fill in the applicant's details and run an assessment to see the estimated default risk and what's driving it.</p>
+      </div>
+
+      <div class="result-content" id="result-content" hidden>
+
+        <div class="gauge-block">
+          <svg class="gauge" viewBox="0 0 200 120" aria-hidden="true">
+            <path class="gauge-track" d="M20,110 A90,90 0 0 1 180,110" />
+            <path class="gauge-value" id="gauge-value" d="M20,110 A90,90 0 0 1 180,110" />
+          </svg>
+          <div class="gauge-readout">
+            <span class="gauge-percent" id="gauge-percent">0%</span>
+            <span class="gauge-label">estimated default probability</span>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <span class="verdict-badge" id="verdict-badge">—</span>
+          <span class="verdict-detail" id="verdict-detail"></span>
+        </div>
+
+        <div class="drivers">
+          <h2>What's driving this score</h2>
+          <ul class="driver-list" id="driver-list"></ul>
+          <p class="driver-empty" id="driver-empty" hidden>Driver breakdown isn't available for this model yet — see the README for enabling SHAP.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-footer">
+    <span>Decision threshold: <span id="threshold-value">—</span></span>
+  </footer>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
